@@ -66,9 +66,13 @@ public class Service {
 
     }
 
-    public String putBook(int id, String author, String name) throws BookException {
+    public String putBook(int id, String author, String name)  {
 
-        return bookRepoHashMap.putBook(id, author, name);
+        try {
+            return bookRepoHashMap.putBook(id, author, name);
+        } catch (BookException e) {
+            return e.toString();
+        }
     }
 }
 

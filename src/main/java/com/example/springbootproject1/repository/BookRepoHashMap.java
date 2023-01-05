@@ -38,6 +38,7 @@ public class BookRepoHashMap implements BookRepoInterface {
     public String getAllBook() throws IOException, ClassNotFoundException {
         StringBuilder q = new StringBuilder();
         for (int j = 0; j <= index - 1; j++)
+            if(books.get(j)!=null)
             q.append(books.get(j).toString());
         return q.toString();
     }
@@ -60,7 +61,7 @@ public class BookRepoHashMap implements BookRepoInterface {
     }
 
     @Override
-    public String putBook(int id, String author, String name) throws BookException {
+    public String putBook(int id, String name, String author) throws BookException {
         if (books.get(id) != null) {
             books.get(id).setAuthor(author);
             books.get(id).setName(name);

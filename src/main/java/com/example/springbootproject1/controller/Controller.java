@@ -42,7 +42,21 @@ public class Controller {
     public String getAllBook() {
         return service.getAllBook();
     }
+    @DeleteMapping(value = "/delete")
+    public String delete(@RequestBody String body){
+        JsonObject jo = parser.parse(body).getAsJsonObject();
+        String name = getString(jo, "name");
+        return service.deleteBook(name);
 
-    //TODO создать ветку удаления и изменения книги
+    }
+    @PutMapping(value = "/put")
+    public String putBook(@RequestBody String body){
+        JsonObject jo = parser.parse(body).getAsJsonObject();
+        Integer id = getInteger(jo, "id");
+        String name = getString(jo, "name");
+        String authorName = getString(jo,"authorName");
+        return service.putBook(id,name,authorName);
+    }
+
 
 }
