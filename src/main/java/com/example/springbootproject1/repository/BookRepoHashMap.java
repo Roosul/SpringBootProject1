@@ -1,9 +1,8 @@
-package repository;
-import dto.Book;
+package com.example.springbootproject1.repository;
+import com.example.springbootproject1.dto.Book;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.ListIterator;
 
 public class BookRepoHashMap implements BookRepoInterface {
     private static final HashMap<Integer, Book> books = new HashMap<>();

@@ -1,5 +1,7 @@
-package repository;
-import dto.Book;
+package com.example.springbootproject1.repository;
+
+import com.example.springbootproject1.dto.Book;
+
 
 import java.io.IOException;
 
