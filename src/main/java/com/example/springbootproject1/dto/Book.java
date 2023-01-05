@@ -1,4 +1,4 @@
-package dto;
+package com.example.springbootproject1.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
