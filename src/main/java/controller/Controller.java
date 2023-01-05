@@ -1,4 +1,4 @@
-package com.example.springbootproject1;
+package controller;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,15 +12,13 @@ import static com.example.springbootproject1.MyJsonUtils.getString;
 public class Controller {
     private final JsonParser parser = new JsonParser();
     @PostMapping(value="/add")
-    public  String add(@RequestBody String body){
+    public  String add(@RequestBody String body) {
         JsonObject jo = parser.parse(body).getAsJsonObject();
-        String name = getString(jo,"name");
-        String authorName = getString(jo,"authorName");
-        Integer pageCount = getInteger(jo,"pageCount");
-        return name+"  "+authorName+"  "+pageCount;
+        String name = getString(jo, "name");
+        String authorName = getString(jo, "authorName");
+        Integer pageCount = getInteger(jo, "pageCount");
+        return name + "  " + authorName + "  " + pageCount;
     }
-    //TODO создать Staiging перенести эти изменения на него:
-    //TODO создать класс в отдельной ветке,класса репозитория и книги hashMap
     //TODO создать ветку createBook
     //TODO создать ветку получения книги
     //TODO создать ветку удаления и изменения книги
