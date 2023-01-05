@@ -13,18 +13,36 @@ import static com.example.springbootproject1.MyJsonUtils.getString;
 public class Controller {
     final Service service = new Service();
     private final JsonParser parser = new JsonParser();
-    @PostMapping(value="/add")
-    public  String add(@RequestBody String body) {
+
+    @PostMapping(value = "/add")
+    public String add(@RequestBody String body) {
         JsonObject jo = parser.parse(body).getAsJsonObject();
         String name = getString(jo, "name");
         String authorName = getString(jo, "authorName");
         Integer pageCount = getInteger(jo, "pageCount");
-        return service.addBook(name,authorName,pageCount);
+        return service.addBook(name, authorName, pageCount);
     }
-    //TODO создать ветку получения книги
+    @GetMapping(value = "/getName")
+    public String getName(@RequestBody String body) {
+        JsonObject jo = parser.parse(body).getAsJsonObject();
+        String name = getString(jo, "name");
+        return service.getBookByName(name);
+
+
+
+    }
+    @GetMapping(value = "/get")
+    public String getBookId(@RequestBody String body){
+        JsonObject jo = parser.parse(body).getAsJsonObject();
+        Integer id = getInteger(jo, "id");
+        return service.getBook(id);
+
+    }
+    @GetMapping(value = "/getAll")
+    public String getAllBook() {
+        return service.getAllBook();
+    }
+
     //TODO создать ветку удаления и изменения книги
-
-
-
 
 }

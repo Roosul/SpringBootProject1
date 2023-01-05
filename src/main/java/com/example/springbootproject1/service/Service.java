@@ -22,22 +22,28 @@ public class Service {
 
 
     }
+    public String getBook(int id)  {
 
-    public String getBook(int id) {
-
-        try {
-            return bookRepoHashMap.getBook(id);
+        try {String book = bookRepoHashMap.getBook(id);
+            if(book == null) {
+                return "Такой книги нет";
+            }
+            return book;
         }
         catch (RuntimeException e){
-            return "Такой книги нет";
+            return "Такой книги нет(RuntimeExp)";
         } catch (IOException | ClassNotFoundException e) {
             return e.toString();
         }
     }
 
-    public String getAllBook() throws IOException, ClassNotFoundException {
+    public String getAllBook() {
 
-        return bookRepoHashMap.getAllBook();
+        try {
+            return bookRepoHashMap.getAllBook();
+        } catch (IOException | ClassNotFoundException e) {
+            return e.toString();
+        }
     }
 
     public String getBookByName(String name) {
