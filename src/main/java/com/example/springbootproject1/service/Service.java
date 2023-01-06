@@ -2,17 +2,20 @@ package com.example.springbootproject1.service;
 import com.example.springbootproject1.dto.Book;
 import com.example.springbootproject1.repository.BookException;
 import com.example.springbootproject1.repository.BookRepoHashMap;
+import com.example.springbootproject1.repository.Dbase;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Service {
 
     final BookRepoHashMap bookRepoHashMap = new BookRepoHashMap();
+    final Dbase dbase = new Dbase();
 
     public String addBook(String name, String author, int page)  {
         Book book = new Book(name, author, page);
         try {
-            if(bookRepoHashMap.save(book))
+            if(dbase.save(book))
                 return "Книга создана";
             return "Такая книга уже существует";
         } catch (Exception e) {
@@ -40,8 +43,8 @@ public class Service {
     public String getAllBook() {
 
         try {
-            return bookRepoHashMap.getAllBook();
-        } catch (IOException | ClassNotFoundException e) {
+            return dbase.getAllBook();
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             return e.toString();
         }
     }
