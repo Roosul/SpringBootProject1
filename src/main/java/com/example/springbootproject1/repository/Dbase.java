@@ -28,37 +28,41 @@ public class Dbase {
     }
 
     public boolean delete(int id) throws SQLException, BookException, IOException, ClassNotFoundException {
-        Statement statement = connection.createStatement();
-        String SQL = "DELETE FROM Book WHERE id =" + id;
-        statement.executeUpdate(SQL);
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Book WHERE id = ?");
+        preparedStatement.setInt(1,id);
+        preparedStatement.executeUpdate();
         return true;
     }
 
 
     public boolean save(Book book) throws SQLException {
-            Statement statement = connection.createStatement();
-           // book.setId(index);
-            String SQL = "INSERT INTO book VALUES('" + book.getId() + "','" + book.getName() + "','" + book.getAuthor() + "','" + book.getPage() + "')";
-            statement.executeUpdate(SQL);
-            //index++;
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Book VALUES(?,?,?,?)");
+            preparedStatement.setInt(1,book.getId());
+            preparedStatement.setString(2,book.getName());
+            preparedStatement.setString(3,book.getAuthor());
+            preparedStatement.setInt(4,book.getPage());
+            preparedStatement.executeUpdate();
             return true;
     }
 
 
-    public Book getBook(int id) {
+    public Book getBook(int id) throws Exception {
+        Book book = new Book();
         try {
-            Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM Book  WHERE id ='" + id + "'";
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Book  WHERE id =?");
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            book.setId(resultSet.getInt("id"));
+            book.setName(resultSet.getString("name"));
+            book.setAuthor(resultSet.getString("authorName"));
+            book.setId(resultSet.getInt("page"));
+            return book;
 
-            ResultSet resultSet = statement.executeQuery(SQL);
-            if (resultSet.next()) {
-                Book book = new Book(resultSet);
-                return book;
-            }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            throw new Exception();
 
         }
-        return null;
+
     }
 
 
@@ -97,25 +101,22 @@ public class Dbase {
     }
 
 
-    public boolean putBook(int id, String authorName, String name, int pageCount, String newAuthorName, String newName, int newPageCount) {
+    public boolean putBook(int id, String authorName, String name, String newParam) {
         try {
-            Statement statement = connection.createStatement();
-            updateByStringColumn(id, name, newName, statement);
-            updateByStringColumn(id, authorName, newAuthorName, statement);
-            if (pageCount != 0) {
-                String SQL = "UPDATE Book SET page = " + newPageCount + " WHERE id =" + id;
-                statement.executeUpdate(SQL);
-            }
+            updateByStringColumn(id, name, newParam);
+            updateByStringColumn(id, authorName, newParam);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    private static void updateByStringColumn(int id, String columnName, String newName, Statement statement) throws SQLException {
+    private static void updateByStringColumn(int id, String columnName, String newParam) throws SQLException {
         if (columnName != null) {
-            String SQL = "UPDATE Book SET " + columnName + " = '" + newName + "' WHERE id =" + id;
-            statement.executeUpdate(SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Book SET columnName = ?  WHERE id = ?");
+            preparedStatement.setString(1,newParam);
+            preparedStatement.setInt(2,id);
+            preparedStatement.executeUpdate();
         }
 
     }
