@@ -39,7 +39,6 @@ public class Controller {
 
     @GetMapping(value = "/get")
     public String getBookId(@RequestParam int id) throws Exception {
-        log.info("> getBookId {}",id);
         return (service.getBook(id).toString());
           }
 
@@ -65,15 +64,13 @@ public class Controller {
         Integer id = getInteger(jo, "id");
         String name = getString(jo, "name");
         String authorName = getString(jo, "authorName");
-        Integer pageCount = getInteger(jo, "pageCount");
-        String newAuthorName = getString(jo, "newAuthorName");
-        String newName = getString(jo, "newName");
-        Integer newPageCount = getInteger(jo, "newPageCount");
+        String newParam = getString(jo,"newParam");
+
         if (id == null)
             return "Надо ввести id книги для внесения изменения";
-        if (name == null && authorName == null && pageCount == 0)
-            return "Надо ввести хотя бы один параметр из трех";
-        return service.putBook(id, authorName, name, pageCount, newAuthorName, newName, newPageCount);
+        if (name == null && authorName == null)
+            return "Надо ввести хотя бы один параметр из двух";
+        return service.putBook(id, authorName, name,newParam);
     }
 
     @ExceptionHandler(Exception.class)

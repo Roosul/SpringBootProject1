@@ -57,9 +57,9 @@ public class Service {
         return 0;
     }
 
-    public String putBook(int id, String authorName, String name, int pageCount, String newAuthorName, String newName, int newPageCount) {
+    public String putBook(int id, String authorName, String name, String newParam) {
 
-        if (dbase.putBook(id, authorName, name, pageCount, newAuthorName, newName, newPageCount))
+        if (dbase.putBook(id, authorName, name,newParam))
             return "Изменения приняты";
         return "Ошибка";
     }
