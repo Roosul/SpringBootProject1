@@ -2,6 +2,7 @@ package com.example.springbootproject1.repository;
 import com.example.springbootproject1.dto.Book;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class BookRepoHashMap implements BookRepoInterface {
@@ -11,7 +12,7 @@ public class BookRepoHashMap implements BookRepoInterface {
 
     @Override
     public boolean save(Book book) throws BookException, IOException, ClassNotFoundException {
-        if (getBookByName(book.getName()) == null){
+        if (getBookByName(book.getName()) == null) {
             books.put(index, book);
             index++;
             return true;
@@ -20,8 +21,7 @@ public class BookRepoHashMap implements BookRepoInterface {
 
     }
     @Override
-    public boolean delete(String name) {
-        int id = getIdByName(name);
+    public boolean delete(int id) throws SQLException, BookException, IOException, ClassNotFoundException {
         if (id == -1)
             return false;
         books.remove(id);
@@ -38,17 +38,17 @@ public class BookRepoHashMap implements BookRepoInterface {
     public String getAllBook() throws IOException, ClassNotFoundException {
         StringBuilder q = new StringBuilder();
         for (int j = 0; j <= index - 1; j++)
-            if(books.get(j)!=null)
-            q.append(books.get(j).toString());
+            if (books.get(j) != null)
+                q.append(books.get(j).toString());
         return q.toString();
     }
 
     @Override
-    public Book getBookByName(String name) throws BookException, IOException, ClassNotFoundException {
+    public String getBookByName(String name) throws BookException, IOException, ClassNotFoundException {
         int id = getIdByName(name);
         if (id == -1)
             return null;
-        return books.get(id);
+        return books.get(id).toString();
     }
 
     @Override
@@ -61,12 +61,16 @@ public class BookRepoHashMap implements BookRepoInterface {
     }
 
     @Override
-    public String putBook(int id, String name, String author) throws BookException {
+    public String putBook(int id, String authorName, String name, int pageCount, String newAuthorName, String newName, int newPageCount) {
         if (books.get(id) != null) {
-            books.get(id).setAuthor(author);
+            books.get(id).setAuthor(authorName);
             books.get(id).setName(name);
             return "Изменение принято";
+
+
         }
-        throw new BookException("Нет такой книги");
+        return "Книга не изменена по системной ошибке";
     }
+
+
 }
