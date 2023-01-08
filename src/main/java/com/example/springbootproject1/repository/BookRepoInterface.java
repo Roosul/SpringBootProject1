@@ -10,15 +10,16 @@ public interface BookRepoInterface {
 
     boolean save(Book book) throws BookException, IOException, ClassNotFoundException, SQLException;
 
-    boolean delete(String name);
+    boolean delete(int id) throws SQLException, BookException, IOException, ClassNotFoundException;
 
     String getBook(int id) throws IOException, ClassNotFoundException, SQLException;
 
     String getAllBook() throws IOException, ClassNotFoundException, SQLException;
 
-    Book getBookByName(String name) throws BookException, IOException, ClassNotFoundException;
+    String getBookByName(String name) throws BookException, IOException, ClassNotFoundException, SQLException;
 
     int getIdByName(String name);
 
-    String putBook(int id, String author, String name) throws BookException;
+    String putBook(int id, String authorName, String name,int pageCount,String newAuthorName,String newName,int newPageCount) throws SQLException;
+
 }
